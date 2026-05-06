@@ -20,10 +20,16 @@ button {
     background: blue;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
     background: darkblue;
+}
+
+input {
+    padding: 10px;
+    width: 200px;
 }
 
 .progress-bar {
