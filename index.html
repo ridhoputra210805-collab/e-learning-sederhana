@@ -6,45 +6,78 @@
 </head>
 <body>
 
-    <h1>E-Learning Sederhana</h1>
+<h1>E-Learning Sederhana</h1>
 
-    <div class="card">
-        <h2>Materi</h2>
-        <ul>
-            <li>Pengenalan HTML</li>
-            <li>Pengenalan CSS</li>
-        </ul>
-    </div>
+<div class="card">
+    <h2>Materi</h2>
+    <ul>
+        <li>Pengenalan HTML</li>
+        <li>Pengenalan CSS</li>
+    </ul>
+</div>
 
-    <div class="card">
-        <h2>Kuis</h2>
-        <p>Apa kepanjangan HTML?</p>
+<div class="card">
+    <h2>Kuis</h2>
 
-        <button onclick="cekJawaban('A')">HyperText Markup Language</button><br><br>
-        <button onclick="cekJawaban('B')">Home Tool Markup Language</button>
+    <p id="soal"></p>
 
-        <p id="hasil"></p>
-    </div>
+    <button onclick="jawab(0)" id="opsi0"></button><br><br>
+    <button onclick="jawab(1)" id="opsi1"></button><br><br>
+    <button onclick="jawab(2)" id="opsi2"></button>
 
-    <div class="card">
-        <h2>Progress</h2>
-        <p id="progress">0%</p>
-    </div>
+    <p id="feedback"></p>
+</div>
+
+<div class="card">
+    <h2>Progress</h2>
+    <p id="progress">0%</p>
+    <p>Skor: <span id="skor">0</span></p>
+</div>
 
 <script>
-let nilai = 0;
+const kuis = [
+    {
+        soal: "Apa kepanjangan HTML?",
+        opsi: ["HyperText Markup Language", "Home Tool Markup Language", "Hyperlinks Text"],
+        jawaban: 0
+    },
+    {
+        soal: "CSS digunakan untuk?",
+        opsi: ["Struktur", "Style/Tampilan", "Database"],
+        jawaban: 1
+    }
+];
 
-function cekJawaban(jawaban){
-    if(jawaban === 'A'){
-        document.getElementById("hasil").innerText = "Benar!";
-        nilai = 100;
+let index = 0;
+let skor = 0;
+
+function tampilSoal(){
+    document.getElementById("soal").innerText = kuis[index].soal;
+    document.getElementById("opsi0").innerText = kuis[index].opsi[0];
+    document.getElementById("opsi1").innerText = kuis[index].opsi[1];
+    document.getElementById("opsi2").innerText = kuis[index].opsi[2];
+}
+
+function jawab(pilihan){
+    if(pilihan === kuis[index].jawaban){
+        skor += 50;
+        document.getElementById("feedback").innerText = "Benar!";
     } else {
-        document.getElementById("hasil").innerText = "Salah!";
-        nilai = 50;
+        document.getElementById("feedback").innerText = "Salah!";
     }
 
-    document.getElementById("progress").innerText = nilai + "%";
+    index++;
+
+    if(index < kuis.length){
+        tampilSoal();
+    } else {
+        document.getElementById("soal").innerText = "Kuis selesai!";
+        document.getElementById("progress").innerText = "100%";
+        document.getElementById("skor").innerText = skor;
+    }
 }
+
+tampilSoal();
 </script>
 
 </body>
