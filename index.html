@@ -5,22 +5,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Selamat Datang di E-Learning</h1>
 
-    <h2>Materi</h2>
-    <ul>
-        <li>Pengenalan HTML</li>
-        <li>Pengenalan CSS</li>
-    </ul>
+    <h1>E-Learning Sederhana</h1>
 
-    <h2>Kuis</h2>
-    <p>Apa kepanjangan HTML?</p>
-    <button onclick="jawab()">Jawab</button>
+    <div class="card">
+        <h2>Materi</h2>
+        <ul>
+            <li>Pengenalan HTML</li>
+            <li>Pengenalan CSS</li>
+        </ul>
+    </div>
 
-    <script>
-        function jawab() {
-            alert("HyperText Markup Language");
-        }
-    </script>
+    <div class="card">
+        <h2>Kuis</h2>
+        <p>Apa kepanjangan HTML?</p>
+
+        <button onclick="cekJawaban('A')">HyperText Markup Language</button><br><br>
+        <button onclick="cekJawaban('B')">Home Tool Markup Language</button>
+
+        <p id="hasil"></p>
+    </div>
+
+    <div class="card">
+        <h2>Progress</h2>
+        <p id="progress">0%</p>
+    </div>
+
+<script>
+let nilai = 0;
+
+function cekJawaban(jawaban){
+    if(jawaban === 'A'){
+        document.getElementById("hasil").innerText = "Benar!";
+        nilai = 100;
+    } else {
+        document.getElementById("hasil").innerText = "Salah!";
+        nilai = 50;
+    }
+
+    document.getElementById("progress").innerText = nilai + "%";
+}
+</script>
+
 </body>
 </html>
