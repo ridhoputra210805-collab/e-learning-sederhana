@@ -6,38 +6,91 @@
 </head>
 <body>
 
-<h1>E-Learning Sederhana</h1>
-
-<div class="card">
-    <h2>Materi</h2>
-    <ul>
-        <li>Pengenalan HTML</li>
-        <li>Pengenalan CSS</li>
-    </ul>
+<!-- LOGIN -->
+<div id="loginPage">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Masukkan nama">
+    <br><br>
+    <button onclick="login()">Masuk</button>
 </div>
 
-<div class="card">
-    <h2>Kuis</h2>
+<!-- APP -->
+<div id="app" style="display:none;">
 
-    <p id="soal"></p>
+    <h1>E-Learning Sederhana</h1>
 
-    <button onclick="jawab(0)" id="opsi0"></button><br><br>
-    <button onclick="jawab(1)" id="opsi1"></button><br><br>
-    <button onclick="jawab(2)" id="opsi2"></button>
+    <h3>Selamat datang, <span id="namaUser"></span></h3>
 
-    <p id="feedback"></p>
-</div>
-
-<div class="card">
-    <h2>Progress</h2>
-    <p id="progress">0%</p>
-    
-    <div class="progress-bar">
-        <div id="bar"></div>
+    <!-- MATERI -->
+    <div class="card">
+        <h2>Materi</h2>
+        <ul>
+            <li>Pengenalan HTML</li>
+            <li>Pengenalan CSS</li>
+        </ul>
     </div>
+
+    <!-- KUIS -->
+    <div class="card">
+        <h2>Kuis</h2>
+
+        <p id="soal"></p>
+
+        <button onclick="jawab(0)" id="opsi0"></button><br><br>
+        <button onclick="jawab(1)" id="opsi1"></button><br><br>
+        <button onclick="jawab(2)" id="opsi2"></button>
+
+        <p id="feedback"></p>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="card">
+        <h2>Progress</h2>
+        <p id="progress">0%</p>
+
+        <div class="progress-bar">
+            <div id="bar"></div>
+        </div>
+
+        <p>Skor: <span id="skor">0</span></p>
+
+        <button onclick="resetData()">Reset Progress</button>
+    </div>
+
 </div>
 
 <script>
+// LOGIN
+function login(){
+    let user = document.getElementById("username").value;
+
+    if(user === ""){
+        alert("Masukkan nama dulu!");
+        return;
+    }
+
+    localStorage.setItem("user", user);
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    document.getElementById("namaUser").innerText = user;
+}
+
+// LOAD USER
+window.onload = function(){
+    let user = localStorage.getItem("user");
+
+    if(user){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("app").style.display = "block";
+        document.getElementById("namaUser").innerText = user;
+    }
+
+    tampilSoal();
+}
+
+// DATA KUIS
 const kuis = [
     {
         soal: "Apa kepanjangan HTML?",
@@ -54,13 +107,17 @@ const kuis = [
 let index = 0;
 let skor = 0;
 
+// TAMPIL SOAL
 function tampilSoal(){
-    document.getElementById("soal").innerText = kuis[index].soal;
-    document.getElementById("opsi0").innerText = kuis[index].opsi[0];
-    document.getElementById("opsi1").innerText = kuis[index].opsi[1];
-    document.getElementById("opsi2").innerText = kuis[index].opsi[2];
+    if(index < kuis.length){
+        document.getElementById("soal").innerText = kuis[index].soal;
+        document.getElementById("opsi0").innerText = kuis[index].opsi[0];
+        document.getElementById("opsi1").innerText = kuis[index].opsi[1];
+        document.getElementById("opsi2").innerText = kuis[index].opsi[2];
+    }
 }
 
+// JAWAB
 function jawab(pilihan){
     if(pilihan === kuis[index].jawaban){
         skor += 50;
@@ -75,17 +132,23 @@ function jawab(pilihan){
 
     document.getElementById("bar").style.width = persen + "%";
     document.getElementById("progress").innerText = Math.round(persen) + "%";
+    document.getElementById("skor").innerText = skor;
+
+    localStorage.setItem("skor", skor);
+    localStorage.setItem("progress", persen);
 
     if(index < kuis.length){
         tampilSoal();
     } else {
         document.getElementById("soal").innerText = "Kuis selesai!";
-        document.getElementById("progress").innerText = "100%";
-        document.getElementById("skor").innerText = skor;
     }
 }
 
-tampilSoal();
+// RESET
+function resetData(){
+    localStorage.clear();
+    location.reload();
+}
 </script>
 
 </body>
