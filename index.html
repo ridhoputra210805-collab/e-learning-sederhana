@@ -71,6 +71,11 @@ function jawab(pilihan){
 
     index++;
 
+    let persen = (index / kuis.length) * 100;
+
+    document.getElementById("bar").style.width = persen + "%";
+    document.getElementById("progress").innerText = Math.round(persen) + "%";
+
     if(index < kuis.length){
         tampilSoal();
     } else {
